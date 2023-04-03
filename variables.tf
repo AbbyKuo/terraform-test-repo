@@ -18,7 +18,7 @@ variable "availability_zone" {
 }
 
 variable "env_prefix" {
-  default = "uat"
+  default = "dev"
 }
 
 variable "health_check_path" {
