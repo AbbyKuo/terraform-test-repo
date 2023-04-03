@@ -81,5 +81,5 @@ variable "image_tag" {
 
 variable "frontend_bucket_name" {
   description = "pn app s3 bucket name for dev"
-  default     = "uat-pn-app.petnanny.live"
+  default     = "dev-pn-app.petnanny.live"
 }
