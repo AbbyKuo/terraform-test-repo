@@ -13,10 +13,10 @@ provider "aws" {
 #   profile                 = "PNTerraform"
 #   shared_credentials_file = "~/.aws/credentials"
 }
-provider "aws" {
-  alias  = "cloudfront-acm-certs"
-  region = "us-east-1"
-}
+# provider "aws" {
+#   alias  = "cloudfront-acm-certs"
+#   region = "us-east-1"
+# }
 
 # FRONTEND: Provision for petnanny frontend - s3 static website, cdn for the s3 website endpoint and create route 53 alias recored. 
 module "pn-app-s3" {
