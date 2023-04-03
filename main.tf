@@ -1,17 +1,17 @@
-terraform {
-  required_version = ">= 0.12"
-  backend "s3" {
-    bucket         = "uat-petnanny-bucket"
-    key            = "pn-terraform/terraform.tfstate"
-    region         = "ap-southeast-2"
-    dynamodb_table = "uat-terraform-state-locking"
-    encrypt        = true
-  }
-}
+# terraform {
+#   required_version = ">= 0.12"
+#   backend "s3" {
+#     bucket         = "uat-petnanny-bucket"
+#     key            = "pn-terraform/terraform.tfstate"
+#     region         = "ap-southeast-2"
+#     dynamodb_table = "uat-terraform-state-locking"
+#     encrypt        = true
+#   }
+# }
 provider "aws" {
   region                  = "ap-southeast-2"
-  profile                 = "PNTerraform"
-  shared_credentials_file = "~/.aws/credentials"
+#   profile                 = "PNTerraform"
+#   shared_credentials_file = "~/.aws/credentials"
 }
 provider "aws" {
   alias  = "cloudfront-acm-certs"
@@ -27,9 +27,9 @@ module "pn-app-s3" {
 
 module "pn-app-cloudfront" {
   source = "./modules/cloudfront"
-  providers = {
-    aws = aws.cloudfront-acm-certs
-  }
+#   providers = {
+#     aws = aws.cloudfront-acm-certs
+#   }
   root_domain                    = var.root_domain
   frontend_bucket_name           = var.frontend_bucket_name
   env_prefix                     = var.env_prefix
