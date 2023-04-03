@@ -1,10 +1,10 @@
 # terraform {
 #   required_version = ">= 0.12"
 #   backend "s3" {
-#     bucket         = "uat-petnanny-bucket"
+#     bucket         = "dev-petnanny-bucket"
 #     key            = "pn-terraform/terraform.tfstate"
 #     region         = "ap-southeast-2"
-#     dynamodb_table = "uat-terraform-state-locking"
+#     dynamodb_table = "dev-terraform-state-locking"
 #     encrypt        = true
 #   }
 # }
