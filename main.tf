@@ -1,22 +1,24 @@
-# terraform {
-#   required_version = ">= 0.12"
-#   backend "s3" {
-#     bucket         = "dev-petnanny-bucket"
-#     key            = "pn-terraform/terraform.tfstate"
-#     region         = "ap-southeast-2"
-#     dynamodb_table = "dev-terraform-state-locking"
-#     encrypt        = true
-#   }
-# }
+terraform {
+  required_version = ">= 0.12"
+  backend "s3" {
+    bucket         = "dev-petnanny-bucket"
+    key            = "pn-terraform/terraform.tfstate"
+    region         = "ap-southeast-2"
+    dynamodb_table = "dev-terraform-state-locking"
+    encrypt        = true
+  }
+}
+
 provider "aws" {
   region                  = "ap-southeast-2"
-  profile                 = "PNTerraform"
-  shared_credentials_file = "~/.aws/credentials"
+#   profile                 = "PNTerraform"
+#   shared_credentials_file = "~/.aws/credentials"
 }
-# provider "aws" {
-#   alias  = "cloudfront-acm-certs"
-#   region = "us-east-1"
-# }
+
+provider "aws" {
+  alias  = "cloudfront-acm-certs"
+  region = "us-east-1"
+}
 
 # FRONTEND: Provision for petnanny frontend - s3 static website, cdn for the s3 website endpoint and create route 53 alias recored. 
 module "pn-app-s3" {
@@ -25,24 +27,24 @@ module "pn-app-s3" {
   env_prefix           = var.env_prefix
 }
 
-# module "pn-app-cloudfront" {
-#   source = "./modules/cloudfront"
-# #   providers = {
-# #     aws = aws.cloudfront-acm-certs
-# #   }
-#   root_domain                    = var.root_domain
-#   frontend_bucket_name           = var.frontend_bucket_name
-#   env_prefix                     = var.env_prefix
-#   s3_bucket_regional_domain_name = module.pn-app-s3.bucket_regional_domain_name
-# }
+module "pn-app-cloudfront" {
+  source = "./modules/cloudfront"
+  providers = {
+    aws = aws.cloudfront-acm-certs
+  }
+  root_domain                    = var.root_domain
+  frontend_bucket_name           = var.frontend_bucket_name
+  env_prefix                     = var.env_prefix
+  s3_bucket_regional_domain_name = module.pn-app-s3.bucket_regional_domain_name
+}
 
-# module "pn-app-route53" {
-#   source                                    = "./modules/route53"
-#   root_domain                               = var.root_domain
-#   frontend_bucket_name                      = var.frontend_bucket_name
-#   cloudfront_s3_distribution_domian_name    = module.pn-app-cloudfront.cloudfront_s3_distribution.domain_name
-#   cloudfront_s3_distribution_hosted_zone_id = module.pn-app-cloudfront.cloudfront_s3_distribution.hosted_zone_id
-# }
+module "pn-app-route53" {
+  source                                    = "./modules/route53"
+  root_domain                               = var.root_domain
+  frontend_bucket_name                      = var.frontend_bucket_name
+  cloudfront_s3_distribution_domian_name    = module.pn-app-cloudfront.cloudfront_s3_distribution.domain_name
+  cloudfront_s3_distribution_hosted_zone_id = module.pn-app-cloudfront.cloudfront_s3_distribution.hosted_zone_id
+}
 
 # # BACKEND: Provision for petnanny backend
 
