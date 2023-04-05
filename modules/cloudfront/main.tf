@@ -1,8 +1,8 @@
-# #Retrieve the certificate for *.petnanny.live
-# data "aws_acm_certificate" "issued_ssl_cert" {
-#   domain   = "*.${var.root_domain}"
-#   statuses = ["ISSUED"]
-# }
+#Retrieve the certificate for *.petnanny.live
+data "aws_acm_certificate" "issued_ssl_cert" {
+  domain   = "*.${var.root_domain}"
+  statuses = ["ISSUED"]
+}
 
 
 # Cloud Front Distribution
@@ -52,8 +52,8 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   }
 
   viewer_certificate {
-    acm_certificate_arn = "arn:aws:acm:us-east-1:312518712322:certificate/5e24b57c-24a0-4f27-b811-66c430b94a3c"
-#     data.aws_acm_certificate.issued_ssl_cert.arn
+    acm_certificate_arn = data.aws_acm_certificate.issued_ssl_cert.id
+#     "arn:aws:acm:us-east-1:312518712322:certificate/5e24b57c-24a0-4f27-b811-66c430b94a3c"
     ssl_support_method = "sni-only"
   }
 
